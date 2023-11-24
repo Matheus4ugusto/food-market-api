@@ -16,10 +16,10 @@ import java.util.UUID;
 
 @Service
 public class JwtService implements JwtServiceContract {
-    @Value("{app.jwt.secret}")
+    @Value("${app.jwt.secret}")
     private String secret;
 
-    @Value("{app.jwt.expiration}")
+    @Value("${app.jwt.expiration}")
     private String expiration;
 
     @Override
