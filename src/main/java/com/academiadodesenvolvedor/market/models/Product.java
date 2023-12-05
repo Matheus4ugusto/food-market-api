@@ -3,6 +3,8 @@ package com.academiadodesenvolvedor.market.models;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @Entity(name = "products")
 public class Product {
@@ -15,4 +17,7 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "store_id")
     private Store store;
+
+    @OneToMany
+    private List<Media> medias;
 }

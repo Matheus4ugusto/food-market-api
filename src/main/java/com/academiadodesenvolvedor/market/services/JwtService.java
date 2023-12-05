@@ -6,12 +6,14 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -39,12 +41,21 @@ public class JwtService implements JwtServiceContract {
         Date expiration = Date.from(expirationTime
                 .atZone(ZoneId.systemDefault()).toInstant());
 
+        List<String> roles = user.getRoles()
+                .stream()
+                .map(erre -> erre.getName())
+                .toList();
+
+                            //JSON            .stringfy(roles);
+        String roleString = new ObjectMapper().writeValueAsString(roles);
+
         return JWT.create()
                 .withJWTId(UUID.randomUUID().toString())
                 .withExpiresAt(expiration)
                 .withSubject(user.getId().toString())
                 .withClaim("name", user.getName())
                 .withClaim("email", user.getEmail())
+                .withClaim("roles", roleString)
                 .sign(this.getAlgorithm());
     }
 

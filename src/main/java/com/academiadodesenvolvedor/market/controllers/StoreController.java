@@ -7,6 +7,8 @@ import com.academiadodesenvolvedor.market.services.contracts.StoreServiceContrac
 import com.academiadodesenvolvedor.market.utils.UploadFile;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -46,6 +48,21 @@ public class StoreController {
         return new ResponseEntity<>(new StoreDTO(store), HttpStatus.CREATED);
     }
 
+@GetMapping
+public ResponseEntity<Page<StoreDTO>> list(Pageable page){
+    Page<Store> stores = this.storeService.getStores(page);
+
+    Page<StoreDTO> storeDTOS = stores.map(StoreDTO::new);
+
+    return new ResponseEntity<>(storeDTOS, HttpStatus.OK);
+}
+
+@GetMapping("/{id}")
+public ResponseEntity<StoreDTO> store(@PathVariable Long id){
+        Store store = this.storeService.getStoreById(id);
+
+        return new ResponseEntity<>(new StoreDTO(store), HttpStatus.OK);
+}
     @PutMapping("/{id}")
     public ResponseEntity<StoreDTO> update(@PathVariable Long id,@RequestBody CreateStoreRequest request){
         Store store = this.storeService.updateStore(id,request);

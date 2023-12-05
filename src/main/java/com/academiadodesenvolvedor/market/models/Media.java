@@ -1,9 +1,6 @@
 package com.academiadodesenvolvedor.market.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
@@ -14,4 +11,7 @@ public class Media {
     private Long id;
     private String filename;
     private String filePath;
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
 }

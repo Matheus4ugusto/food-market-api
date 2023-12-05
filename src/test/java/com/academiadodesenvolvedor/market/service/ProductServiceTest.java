@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @SpringBootTest
@@ -32,9 +31,12 @@ public class ProductServiceTest {
         media.setFilename("/stprage/dummy");
         this.mediaServiceContract.createMedia(media);
 
-        this.contract.setMedia(product,media);
+        Product productSaved =  this.contract.updateProduct(
+                this.contract.setMedia(product,media));
 
-        Assertions.assertTrue(!product.getMedias().isEmpity);
+        Assertions.assertTrue(!productSaved
+                .getMedias()
+                .isEmpty());
     }
 
     @Test
@@ -50,9 +52,12 @@ public class ProductServiceTest {
         List<Media> medias = new ArrayList<>();
         medias.add(media);
 
-        Product productSaved = this.contract.setMedia(product, medias);
+        Product productSaved = this.contract.updateProduct(
+                this.contract.setMedia(product,medias));
 
-        Assertions.assertTrue(!productSaved.getMedias().isEmpity());
+        Assertions.assertTrue(!productSaved
+                .getMedias()
+                .isEmpty());
     }
 
     private Product getProductModel(){

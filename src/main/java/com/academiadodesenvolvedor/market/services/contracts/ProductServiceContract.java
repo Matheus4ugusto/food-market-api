@@ -1,5 +1,6 @@
 package com.academiadodesenvolvedor.market.services.contracts;
 
+import com.academiadodesenvolvedor.market.models.Media;
 import com.academiadodesenvolvedor.market.models.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,10 @@ public interface ProductServiceContract {
     List<Product> getProducts();
 
     Page<Product> getProducts(Pageable pageable);
+
+    Product setMedia(Product product, Media media);
+
+    Product setMedia(Product product, List<Media> media);
 
 
 }

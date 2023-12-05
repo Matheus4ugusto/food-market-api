@@ -36,6 +36,15 @@ public class SecurityConfiguration {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(request -> request
                         .requestMatchers(HttpMethod.POST, "/login/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/stores/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/products/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/stores/**").hasAnyAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/stores/**").hasAnyAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/stores/**").hasAnyAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/products/**").hasAnyAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/products/**").hasAnyAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/products/**").hasAnyAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/storage/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(new JwtFilter(this.jwtService,this.userService),
